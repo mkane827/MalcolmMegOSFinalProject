@@ -8,7 +8,7 @@
 public class Pong {
 
     public static void main(String[] args) {
-        ServerSetup screen = new ServerSetup("Setup");
+        Game screen = new Game("Setup");
         screen.setSize(500, 500);
         screen.setVisible(true);
     }
