@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -51,8 +52,10 @@ public class Game extends Frame implements ActionListener, WindowListener{
         if(action.equals(START_SERVER)) {
             try {
                 gameServer = new ServerSocket(1234);
-                Label ipaddress = new Label(gameServer.getLocalSocketAddress().toString());
+                Label ipaddress = new Label("IP Adress: " + Inet4Address.getLocalHost().getHostAddress());
+                Label port = new Label("Port: 1234");
                 this.add(ipaddress);
+                this.add(port);
                 this.paintAll(this.getGraphics());
                 Socket clientSocket = gameServer.accept();
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -98,8 +101,9 @@ public class Game extends Frame implements ActionListener, WindowListener{
                 gameSocket = new Socket(connectToIPField.getText(), Integer.parseInt(connectToPortField.getText()));
                 System.out.println("Writing 1");
                 PrintWriter out = new PrintWriter(gameSocket.getOutputStream(), true);
-                out.write("Hello");
+                out.println("Hello");
                 out.write("exit");
+                out.close();
             } catch (IOException e) {
                 System.out.println("Unable to connect to socket");
                 System.exit(-1);
