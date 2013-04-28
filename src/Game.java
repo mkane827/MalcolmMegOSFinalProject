@@ -29,7 +29,7 @@ public class Game extends Frame implements ActionListener, WindowListener{
     private TextField connectToIPField;
     private TextField connectToPortField;
 
-    private ServerSocket gameServer;
+    private GameServer gameServer;
     private Socket gameSocket;
 
     public Game(String s) {
@@ -51,10 +51,11 @@ public class Game extends Frame implements ActionListener, WindowListener{
         String action = event.getActionCommand();
         if(action.equals(START_SERVER)) {
             try {
-                gameServer = new ServerSocket(1234);
+                gameServer = new GameServer(1234);
                 Label ipaddress = new Label("IP Adress: " + Inet4Address.getLocalHost().getHostAddress());
                 Label port = new Label("Port: 1234");
                 this.add(ipaddress);
+                this.paintAll(this.getGraphics());
                 this.add(port);
                 this.paintAll(this.getGraphics());
                 Socket clientSocket = gameServer.accept();
@@ -64,6 +65,8 @@ public class Game extends Frame implements ActionListener, WindowListener{
                 while(!(readLine = in.readLine()).equals("exit")) {
                     System.out.println("read: " + readLine);
                 }
+
+                this.removeAll();
 
             }
             catch (IOException e) {
@@ -120,11 +123,11 @@ public class Game extends Frame implements ActionListener, WindowListener{
     }
 
 
-    public ServerSocket getGameServer() {
+    public GameServer getGameServer() {
         return gameServer;
     }
 
-    public void setGameServer(ServerSocket gameServer) {
+    public void setGameServer(GameServer gameServer) {
         this.gameServer = gameServer;
     }
 
