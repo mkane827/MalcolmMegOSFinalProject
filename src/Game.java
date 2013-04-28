@@ -65,7 +65,7 @@ public class Game extends Frame implements ActionListener, WindowListener{
                 while(!(readLine = in.readLine()).equals("exit")) {
                     System.out.println("read: " + readLine);
                 }
-
+                // Testing stuff
                 this.removeAll();
 
             }
