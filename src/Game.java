@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Inet4Address;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -52,11 +51,8 @@ public class Game extends Frame implements ActionListener, WindowListener{
         if(action.equals(START_SERVER)) {
             try {
                 gameServer = new GameServer(1234);
-                Label ipaddress = new Label("IP Adress: " + Inet4Address.getLocalHost().getHostAddress());
-                Label port = new Label("Port: 1234");
-                this.add(ipaddress);
-                this.paintAll(this.getGraphics());
-                this.add(port);
+                Label instruction = new Label("Us www.whatsmyip.org to get your ip address. Game is on port 1234.");
+                this.add(instruction);
                 this.paintAll(this.getGraphics());
                 Socket clientSocket = gameServer.accept();
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
