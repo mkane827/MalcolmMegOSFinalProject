@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Malcolm
@@ -8,9 +10,17 @@
 public class Pong {
 
     public static void main(String[] args) {
-        Game screen = new Game("Setup");
+        StartingScreen screen = new StartingScreen("Setup");
+        screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         screen.setSize(500, 500);
         screen.setVisible(true);
+    }
+
+
+    public static void startGame(boolean server){
+         Game game = new Game("Setup", server);
+         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         game.setVisible(true);
     }
 
 }
