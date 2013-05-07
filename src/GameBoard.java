@@ -15,18 +15,19 @@ public class GameBoard extends JPanel {
     private int paddle2y;
     private int ballx;
     private int bally;
-    private static final int PADDLEWIDTH = 5;
-    private static final int PADDLEHEIGHT = 40;
-    private static final int BALLDIAM = 10;
+    protected static final int PADDLEWIDTH = 5;
+    protected static final int PADDLEHEIGHT = 40;
+    protected static final int BALLDIAM = 10;
+    protected static final int MARGIN = 1;
 
     public GameBoard(int width, int height){
         this.setSize(width,height);
-        this.paddle1x = 5;
-        this.paddle1y = height/2 - PADDLEHEIGHT/2;
-        this.paddle2x = width - PADDLEWIDTH;
-        this.paddle2y = height/2 - PADDLEHEIGHT/2;
-        this.ballx = width/2-BALLDIAM/2;
-        this.bally = height/2 - BALLDIAM/2;
+        this.paddle1x = this.MARGIN;
+        this.paddle1y = height/2 - this.PADDLEHEIGHT/2;
+        this.paddle2x = width - this.PADDLEWIDTH - this.MARGIN;
+        this.paddle2y = height/2 - this.PADDLEHEIGHT/2;
+        this.ballx = width/2-this.BALLDIAM/2;
+        this.bally = height/2 - this.BALLDIAM/2;
         System.out.println(Integer.toString(width));
     }
 
@@ -54,5 +55,45 @@ public class GameBoard extends JPanel {
         this.ballx = this.ballx + dx;
         this.bally = this.bally+dy;
         this.repaint();
+    }
+
+    public void setPaddle1(int y){
+        this.paddle1y = y;
+        this.repaint();
+    }
+
+    public void setPaddle2(int y){
+        this.paddle2y = y;
+        this.repaint();
+    }
+
+    public void setBall(int x, int y){
+        this.ballx = x;
+        this.bally = y;
+        this.repaint();
+    }
+
+    public int getPaddle1x(){
+        return this.paddle1x;
+    }
+
+    public int getPaddle1y(){
+        return this.paddle1y;
+    }
+
+    public int getPaddle2x(){
+        return this.paddle2x;
+    }
+
+    public int getPaddle2y(){
+        return this.paddle2y;
+    }
+
+    public int getBallx(){
+        return this.ballx;
+    }
+
+    public int getBally(){
+        return this.bally;
     }
 }

@@ -115,7 +115,10 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
                 PrintWriter out = new PrintWriter(gameSocket.getOutputStream(), true);
                 out.println("Hello");
                 out.write("exit");
-                out.close();
+                this.removeAll();
+
+                this.setVisible(false);
+                Pong.startGame(false);
             } catch (IOException e) {
                 System.out.println("Unable to connect to socket");
                 System.exit(-1);

@@ -14,13 +14,15 @@ public class Pong {
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         screen.setSize(500, 500);
         screen.setVisible(true);
+        screen.setResizable(false);
     }
 
 
     public static void startGame(boolean server){
-         Game game = new Game("Setup", server);
+         ServerGame game = new ServerGame("Setup");
          game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          game.setVisible(true);
+         game.setResizable(false);
     }
 
 }

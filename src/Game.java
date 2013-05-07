@@ -1,10 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Button;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,107 +10,27 @@ import java.awt.event.WindowListener;
  * Time: 11:21 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Game extends JFrame implements ActionListener, WindowListener{
+public abstract class Game extends JFrame implements KeyListener {
 
-    private static final int SIZE = 500;
+    protected static final int WIDTH = 500;
+    protected static final int HEIGHT = 500;
+    protected GameBoard board;
 
 
-    private GameServer gameServer;
 
-    private GameBoard board;
-
-    private Timer myTimer;
-
-    public Game(String s, boolean server) {
+    public Game(String s) {
         super(s);
-        setLayout(new BorderLayout());
-        this.setSize(SIZE+20,SIZE+20);
-        board = new GameBoard(SIZE, SIZE);
+        setLayout(null);
+        this.setSize(this.WIDTH+100,this.HEIGHT+100);
+        board = new GameBoard(this.WIDTH, this.HEIGHT);
+
         add(board);
-        if(server){
-            this.runGameAsServer();
-        }
-        else{
-            this.runGameAsUser();
-        }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        
-    }
+    abstract void runGame();
 
+    abstract void movePaddle(int dy);
 
-    private void addButton(String text, Container container) {
-        Button newButton = new Button(text);
-        container.add(newButton);
-        newButton.addActionListener(this);
-    }
+    abstract int getPaddleDirection(KeyEvent e);
 
-
-    public GameServer getGameServer() {
-        return gameServer;
-    }
-
-    public void setGameServer(GameServer gameServer) {
-        this.gameServer = gameServer;
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-        System.exit(0);
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void runGameAsServer(){
-        System.out.println("here");
-
-
-        ActionListener timeStepListener = new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                moveBall();
-            }
-        };
-        this.myTimer = new Timer(10, timeStepListener);
-        this.myTimer.start();
-
-    }
-
-    public void runGameAsUser(){
-        board = new GameBoard(SIZE, SIZE);
-        repaint();
-    }
-
-    public void moveBall(){
-        board.moveBall(1,1);
-    }
 }
