@@ -44,6 +44,7 @@ public class UserGame extends Game {
                 this.board.setBall(Integer.parseInt(boardLayout[0]), Integer.parseInt(boardLayout[1]));
                 this.board.setPaddle1(Integer.parseInt(boardLayout[2]));
                 out.println(this.board.getPaddle1y());
+                this.paintAll(this.getGraphics());
             }
             out.println("exit");
         } catch (IOException e) {

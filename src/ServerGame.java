@@ -45,17 +45,19 @@ public class ServerGame extends Game {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             this.startBall();
-            int count = 0;
+
             String readLine;
             while(!((readLine = in.readLine()).equals("exit"))) {
-                this.moveBall();
                 this.board.setPaddle2(Integer.parseInt(readLine));
+                this.moveBall();
+                Thread.sleep(30);
                 out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
-                if(count++ >= 100) {
-                    out.println("exit");
-                }
+                this.paintAll(this.getGraphics());
+
             }
         } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
@@ -87,7 +89,6 @@ public class ServerGame extends Game {
         if(bally <= 0 || bally + super.board.BALLDIAM >= super.HEIGHT){
             this.balldy = -this.balldy;
         }
-        //TODO: Send new locations?
     }
 
     public void hitPaddle(int paddley, int sign){
