@@ -21,6 +21,7 @@ public class UserGame extends Game {
     public UserGame(String s, Socket socket){
         super(s);
         this.socket = socket;
+        this.addKeyListener(this);
     }
 
     @Override

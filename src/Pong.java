@@ -24,6 +24,7 @@ public class Pong {
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);
+        game.runGame();
     }
 
     public static void startGame(Socket socket){
@@ -31,6 +32,7 @@ public class Pong {
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);
+        game.runGame();
     }
 
 }
