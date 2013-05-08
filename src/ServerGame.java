@@ -17,10 +17,9 @@ import java.util.Random;
  * Time: 3:52:34 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerGame extends Game implements ActionListener{
+public class ServerGame extends Game {
 
     private GameServer gameServer;
-    private Timer myTimer;
     private static final int DELAYMAX = 30;
     private static final int DELAYMIN = 5;
     private static final int PADDLEMOV = 7;
@@ -32,13 +31,6 @@ public class ServerGame extends Game implements ActionListener{
         super(s);
         this.gameServer = gameServer;
         this.addKeyListener(this);
-        this.runGame();
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(myTimer)){
-            this.moveBall();
-        }
     }
 
     @Override
@@ -52,11 +44,10 @@ public class ServerGame extends Game implements ActionListener{
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             this.startBall();
-            this.myTimer = new Timer(30, this);
-            this.myTimer.start();
 
             String readLine;
             while(!(readLine = in.readLine()).equals("exit")) {
+                this.moveBall();
                 this.board.setPaddle2(Integer.parseInt(readLine));
                 System.out.println("read: " + readLine);
                 out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
@@ -64,11 +55,6 @@ public class ServerGame extends Game implements ActionListener{
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-
-
-
-
     }
 
     public void startBall(){
@@ -83,7 +69,6 @@ public class ServerGame extends Game implements ActionListener{
         int balld = super.board.BALLDIAM;
         int paddleZone = super.board.PADDLEWIDTH + super.board.MARGIN;
         if(ballx <= 0 || ballx + balld >= super.WIDTH){
-            myTimer.stop();
             //TODO: accumulate point or end game
         }else if(ballx <= paddleZone){
            int paddley = super.board.getPaddle1y();
@@ -139,14 +124,6 @@ public class ServerGame extends Game implements ActionListener{
             this.balldy = 3;
             this.balldx = 1*sign;
             delayInc = -5;
-        }
-        int newDelay = this.myTimer.getDelay() + delayInc;
-        if(newDelay < this.DELAYMIN){
-            this.myTimer.setDelay(this.DELAYMIN);
-        }else if(newDelay > this.DELAYMAX){
-            this.myTimer.setDelay(this.DELAYMAX);
-        }else{
-            this.myTimer.setDelay(newDelay);
         }
 
     }

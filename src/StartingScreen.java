@@ -91,8 +91,6 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
             try {
                 gameSocket = new Socket(connectToIPField.getText(), 1234);
 
-                this.removeAll();
-
                 this.setVisible(false);
                 Pong.startGame(gameSocket);
             } catch (IOException e) {
