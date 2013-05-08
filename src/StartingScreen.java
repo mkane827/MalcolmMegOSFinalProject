@@ -45,7 +45,6 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
         addButton(START_SERVER, buttonPanel);
         addButton(CONNECT, buttonPanel);
         addButton(EXIT, buttonPanel);
-        addButton("PLAY", buttonPanel);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -59,9 +58,6 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
                 Label instruction = new Label("Use www.whatsmyip.org to get your ip address");
                 this.add(instruction);
                 this.paintAll(this.getGraphics());
-
-                // Testing stuff
-                this.removeAll();
 
                 this.setVisible(false);
                 Pong.startGame(gameServer);
