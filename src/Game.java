@@ -8,7 +8,7 @@ import java.awt.event.*;
  * Time: 11:21 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Game extends JFrame implements KeyListener {
+public abstract class Game extends JFrame implements MouseListener {
 
     protected static final int WIDTH = 500;
     protected static final int HEIGHT = 500;
@@ -30,5 +30,30 @@ public abstract class Game extends JFrame implements KeyListener {
     abstract void movePaddle(int dy);
 
     abstract int getPaddleDirection(KeyEvent e);
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
 }

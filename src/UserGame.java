@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class UserGame extends Game {
     public UserGame(String s, Socket socket){
         super(s);
         this.socket = socket;
-        this.addKeyListener(this);
+        this.addMouseListener(this);
         this.paintAll(this.getGraphics());
     }
 
@@ -38,15 +37,21 @@ public class UserGame extends Game {
 
             out.println(this.board.getPaddle1y());
 
-            Repainter repainter = new Repainter(this);
-            repainter.run();
+            Repainter repainter = new Repainter();
+            repainter.run(this);
 
             String readLine;
             while(!((readLine = in.readLine()).equals("exit"))) {
                 String[] boardLayout = readLine.split(",");
                 this.board.setBall(Integer.parseInt(boardLayout[0]), Integer.parseInt(boardLayout[1]));
                 this.board.setPaddle1(Integer.parseInt(boardLayout[2]));
-                out.println(this.board.getPaddle1y());
+                try {
+                    this.board.setPaddle2(this.getMousePosition().y);
+                } catch (Exception e) {
+                    // Doesn't have focus
+                }
+                out.println(this.board.getPaddle2y());
+                repainter.run(this);
             }
             out.println("exit");
         } catch (IOException e) {
@@ -79,20 +84,6 @@ public class UserGame extends Game {
             return 0;
         }
 
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        this.movePaddle(getPaddleDirection(e)*this.PADDLEMOV);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        this.movePaddle(getPaddleDirection(e)*this.PADDLEMOV);
-    }
-
-    public void keyReleased(KeyEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public Socket getSocket() {

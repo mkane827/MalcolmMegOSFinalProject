@@ -1,8 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,7 +28,7 @@ public class ServerGame extends Game {
     public ServerGame(String s, GameServer gameServer){
         super(s);
         this.gameServer = gameServer;
-        this.addKeyListener(this);
+        this.addMouseListener(this);
         this.paintAll(this.getGraphics());
     }
 
@@ -44,17 +42,22 @@ public class ServerGame extends Game {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            Repainter repainter = new Repainter(this);
-            repainter.run();
-
             this.startBall();
+
+            Repainter repainter = new Repainter();
+            repainter.run(this);
 
             String readLine;
             while(!((readLine = in.readLine()).equals("exit"))) {
                 this.board.setPaddle2(Integer.parseInt(readLine));
                 this.moveBall();
-                out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
-
+                try {
+                    this.board.setPaddle1(this.getMousePosition().y);
+                } catch (NullPointerException e) {
+                    // Doesn't have focus
+                }
+                out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle2y());
+                repainter.run(this);
             }
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -156,21 +159,6 @@ public class ServerGame extends Game {
             return 0;
         }
 
-    }
-    
-    @Override
-    public void keyTyped(KeyEvent e) {
-        this.movePaddle(getPaddleDirection(e)*this.PADDLEMOV);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        this.movePaddle(getPaddleDirection(e)*this.PADDLEMOV);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //nothing
     }
 
     public GameServer getGameServer() {

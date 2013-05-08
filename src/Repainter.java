@@ -9,20 +9,7 @@ import java.awt.*;
  */
 public class Repainter extends Thread {
 
-    Container container;
-
-    public Repainter(Container container) {
-        this.container = container;
-    }
-
-    public void run() {
-        while(true) {
-            try {
-                Thread.sleep(30);
-                container.paintAll(container.getGraphics());
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-        }
+    public void run(Container container) {
+        container.paintAll(container.getGraphics());
     }
 }
