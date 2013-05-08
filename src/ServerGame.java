@@ -57,9 +57,9 @@ public class ServerGame extends Game implements ActionListener{
 
             String readLine;
             while(!(readLine = in.readLine()).equals("exit")) {
-                this.board.setPaddle1(Integer.parseInt(readLine));
+                this.board.setPaddle2(Integer.parseInt(readLine));
                 System.out.println("read: " + readLine);
-                out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle2y());
+                out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
             }
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
