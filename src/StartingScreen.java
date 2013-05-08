@@ -26,7 +26,6 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
     private final String CONNECT_TO_SERVER = "Connect to Server";
 
     private TextField connectToIPField;
-    private TextField connectToPortField;
 
     private GameServer gameServer;
     private Socket gameSocket;
@@ -57,7 +56,7 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
         if(action.equals(START_SERVER)) {
             try {
                 gameServer = new GameServer(1234);
-                Label instruction = new Label("Use www.whatsmyip.org to get your ip address. Game is on port 1234.");
+                Label instruction = new Label("Use www.whatsmyip.org to get your ip address");
                 this.add(instruction);
                 this.paintAll(this.getGraphics());
 
@@ -80,16 +79,12 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
 
         else if(action.equals(CONNECT)) {
             Panel connectPanel = new Panel();
-            connectPanel.setLayout(new GridLayout(3, 2, 0, 5));
+            connectPanel.setLayout(new GridLayout(2, 2, 0, 5));
             Label connectToIPLabel = new Label("IP:");
             connectToIPField = new TextField();
-            Label connectToPortLabel = new Label("Port:");
-            connectToPortField = new TextField();
 
             connectPanel.add(connectToIPLabel);
             connectPanel.add(connectToIPField);
-            connectPanel.add(connectToPortLabel);
-            connectPanel.add(connectToPortField);
             connectPanel.add(new Container()); // Skip cell
             addButton(CONNECT_TO_SERVER, connectPanel);
 
@@ -97,10 +92,8 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
             this.paintAll(this.getGraphics());
         }
         else if(action.equals(CONNECT_TO_SERVER)) {
-            System.out.println(connectToIPField.getText());
-            System.out.println(connectToPortField.getText());
             try {
-                gameSocket = new Socket(connectToIPField.getText(), Integer.parseInt(connectToPortField.getText()));
+                gameSocket = new Socket(connectToIPField.getText(), 1234);
 
                 this.removeAll();
 
@@ -110,7 +103,6 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
                 System.out.println("Unable to connect to socket");
                 System.exit(-1);
             }
-            System.exit(0);
         }
     }
 
