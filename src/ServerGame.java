@@ -43,6 +43,7 @@ public class ServerGame extends Game {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             this.startBall();
+            int moveBallCounter = 0;
 
             Repainter repainter = new Repainter();
             repainter.run(this);
@@ -50,13 +51,16 @@ public class ServerGame extends Game {
             String readLine;
             while(!((readLine = in.readLine()).equals("exit"))) {
                 this.board.setPaddle2(Integer.parseInt(readLine));
-                this.moveBall();
+                if (moveBallCounter++ >= 50) {
+                    this.moveBall();
+                    moveBallCounter = 0;
+                }
                 try {
                     this.board.setPaddle1(this.getMousePosition().y);
                 } catch (NullPointerException e) {
                     // Doesn't have focus
                 }
-                out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle2y());
+                out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
                 repainter.run(this);
             }
         } catch (IOException e) {
