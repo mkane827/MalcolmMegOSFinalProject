@@ -35,8 +35,11 @@ public class UserGame extends Game {
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            out.println(this.board.getPaddle1y());
+
             String readLine;
-            while(!(readLine = in.readLine()).equals("exit")) {
+            while(!((readLine = in.readLine()).equals("exit"))) {
                 String[] boardLayout = readLine.split(",");
                 this.board.setBall(Integer.parseInt(boardLayout[0]), Integer.parseInt(boardLayout[1]));
                 this.board.setPaddle1(Integer.parseInt(boardLayout[2]));

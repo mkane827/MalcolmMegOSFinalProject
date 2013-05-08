@@ -47,7 +47,7 @@ public class ServerGame extends Game {
             this.startBall();
             int count = 0;
             String readLine;
-            while(!(readLine = in.readLine()).equals("exit")) {
+            while(!((readLine = in.readLine()).equals("exit"))) {
                 this.moveBall();
                 this.board.setPaddle2(Integer.parseInt(readLine));
                 out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
