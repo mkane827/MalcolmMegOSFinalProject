@@ -51,7 +51,7 @@ public class ServerGame extends Game {
             String readLine;
             while(!((readLine = in.readLine()).equals("exit"))) {
                 this.board.setPaddle2(Integer.parseInt(readLine));
-                if (moveBallCounter++ >= 50) {
+                if (moveBallCounter++ >= 25) {
                     this.moveBall();
                     moveBallCounter = 0;
                 }
