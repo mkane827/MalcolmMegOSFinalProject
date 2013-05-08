@@ -3,6 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Random;
 
 /**
@@ -14,6 +19,7 @@ import java.util.Random;
  */
 public class ServerGame extends Game implements ActionListener{
 
+    private GameServer gameServer;
     private Timer myTimer;
     private static final int DELAYMAX = 30;
     private static final int DELAYMIN = 5;
@@ -22,8 +28,9 @@ public class ServerGame extends Game implements ActionListener{
     private int balldy;
     private Random rgen = new Random();
 
-    public ServerGame(String s){
+    public ServerGame(String s, GameServer gameServer){
         super(s);
+        this.gameServer = gameServer;
         this.addKeyListener(this);
         this.runGame();
     }
@@ -38,9 +45,30 @@ public class ServerGame extends Game implements ActionListener{
     public void runGame(){
         //TODO: Set to send ball and paddle1 locations to user
         //TODO: Set up to receive paddle2 locations from user
-        this.startBall();
-        this.myTimer = new Timer(30, this);
-        this.myTimer.start();
+
+        try {
+            Socket clientSocket = gameServer.accept();
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            this.startBall();
+            this.myTimer = new Timer(30, this);
+            this.myTimer.start();
+
+            String readLine;
+            while(!(readLine = in.readLine()).equals("exit")) {
+                this.board.setPaddle1(Integer.parseInt(readLine));
+                System.out.println("read: " + readLine);
+                out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle2y());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+
+
+
+
     }
 
     public void startBall(){
@@ -163,5 +191,13 @@ public class ServerGame extends Game implements ActionListener{
     @Override
     public void keyReleased(KeyEvent e) {
         //nothing
+    }
+
+    public GameServer getGameServer() {
+        return gameServer;
+    }
+
+    public void setGameServer(GameServer gameServer) {
+        this.gameServer = gameServer;
     }
 }

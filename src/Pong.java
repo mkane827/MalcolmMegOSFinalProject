@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.net.Socket;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,11 +19,18 @@ public class Pong {
     }
 
 
-    public static void startGame(boolean server){
-         ServerGame game = new ServerGame("Setup");
-         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         game.setVisible(true);
-         game.setResizable(false);
+    public static void startGame(GameServer server){
+        ServerGame game = new ServerGame("Pong", server);
+        game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.setVisible(true);
+        game.setResizable(false);
+    }
+
+    public static void startGame(Socket socket){
+        UserGame game = new UserGame("Pong", socket);
+        game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.setVisible(true);
+        game.setResizable(false);
     }
 
 }

@@ -53,29 +53,19 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
     @Override
     public void actionPerformed(ActionEvent event) {
         String action = event.getActionCommand();
-        if(action.equals("PLAY")){
-            this.setVisible(false);
-            Pong.startGame(true);
-        }
 
-        else if(action.equals(START_SERVER)) {
+        if(action.equals(START_SERVER)) {
             try {
                 gameServer = new GameServer(1234);
-                Label instruction = new Label("Us www.whatsmyip.org to get your ip address. Game is on port 1234.");
+                Label instruction = new Label("Use www.whatsmyip.org to get your ip address. Game is on port 1234.");
                 this.add(instruction);
                 this.paintAll(this.getGraphics());
-                Socket clientSocket = gameServer.accept();
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                String readLine;
-                while(!(readLine = in.readLine()).equals("exit")) {
-                    System.out.println("read: " + readLine);
-                }
+
                 // Testing stuff
                 this.removeAll();
 
                 this.setVisible(false);
-                Pong.startGame(true);
+                Pong.startGame(gameServer);
 
             }
             catch (IOException e) {
@@ -111,14 +101,11 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
             System.out.println(connectToPortField.getText());
             try {
                 gameSocket = new Socket(connectToIPField.getText(), Integer.parseInt(connectToPortField.getText()));
-                System.out.println("Writing 1");
-                PrintWriter out = new PrintWriter(gameSocket.getOutputStream(), true);
-                out.println("Hello");
-                out.write("exit");
+
                 this.removeAll();
 
                 this.setVisible(false);
-                Pong.startGame(false);
+                Pong.startGame(gameSocket);
             } catch (IOException e) {
                 System.out.println("Unable to connect to socket");
                 System.exit(-1);
