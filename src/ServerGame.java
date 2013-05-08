@@ -44,20 +44,19 @@ public class ServerGame extends Game {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
+            Repainter repainter = new Repainter(this);
+            repainter.run();
+
             this.startBall();
 
             String readLine;
             while(!((readLine = in.readLine()).equals("exit"))) {
                 this.board.setPaddle2(Integer.parseInt(readLine));
                 this.moveBall();
-                Thread.sleep(30);
                 out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
-                this.paintAll(this.getGraphics());
 
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }

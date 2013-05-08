@@ -38,13 +38,15 @@ public class UserGame extends Game {
 
             out.println(this.board.getPaddle1y());
 
+            Repainter repainter = new Repainter(this);
+            repainter.run();
+
             String readLine;
             while(!((readLine = in.readLine()).equals("exit"))) {
                 String[] boardLayout = readLine.split(",");
                 this.board.setBall(Integer.parseInt(boardLayout[0]), Integer.parseInt(boardLayout[1]));
                 this.board.setPaddle1(Integer.parseInt(boardLayout[2]));
                 out.println(this.board.getPaddle1y());
-                this.paintAll(this.getGraphics());
             }
             out.println("exit");
         } catch (IOException e) {
