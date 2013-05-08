@@ -20,7 +20,7 @@ public class Pong {
 
 
     public static void startGame(GameServer server){
-        ServerGame game = new ServerGame("Pong", server);
+        ServerGame game = new ServerGame("Pong - Server", server);
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);
@@ -28,7 +28,7 @@ public class Pong {
     }
 
     public static void startGame(Socket socket){
-        UserGame game = new UserGame("Pong", socket);
+        UserGame game = new UserGame("Pong - User", socket);
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);

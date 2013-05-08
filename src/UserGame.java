@@ -22,6 +22,7 @@ public class UserGame extends Game {
         super(s);
         this.socket = socket;
         this.addKeyListener(this);
+        this.paintAll(this.getGraphics());
     }
 
     @Override
@@ -29,18 +30,11 @@ public class UserGame extends Game {
         //TODO: Set to receive ball and paddle1 locations from server
         //TODO: Set up to send paddle2 locations to server
 
-        System.out.println("Writing 1");
         PrintWriter out = null;
         BufferedReader in = null;
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
-        try {
-            out.println(this.board.getPaddle1y());
             String readLine;
             while(!(readLine = in.readLine()).equals("exit")) {
                 String[] boardLayout = readLine.split(",");
@@ -48,6 +42,7 @@ public class UserGame extends Game {
                 this.board.setPaddle1(Integer.parseInt(boardLayout[2]));
                 out.println(this.board.getPaddle1y());
             }
+            out.println("exit");
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

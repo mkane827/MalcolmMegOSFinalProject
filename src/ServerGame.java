@@ -31,6 +31,7 @@ public class ServerGame extends Game {
         super(s);
         this.gameServer = gameServer;
         this.addKeyListener(this);
+        this.paintAll(this.getGraphics());
     }
 
     @Override
@@ -44,13 +45,15 @@ public class ServerGame extends Game {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             this.startBall();
-
+            int count = 0;
             String readLine;
             while(!(readLine = in.readLine()).equals("exit")) {
                 this.moveBall();
                 this.board.setPaddle2(Integer.parseInt(readLine));
-                System.out.println("read: " + readLine);
                 out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
+                if(count++ >= 100) {
+                    out.println("exit");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
