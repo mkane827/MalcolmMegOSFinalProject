@@ -54,14 +54,14 @@ public class UserGame extends Game {
 
     @Override
     public void movePaddle(int dy) {
-        int paddley = this.board.getPaddle1y();
+        int paddley = this.board.getPaddle2y();
         if(paddley + dy < 0){
-            this.board.setPaddle1(0);
+            this.board.setPaddle2(0);
         }else if(paddley + dy + this.board.PADDLEHEIGHT > this.HEIGHT){
-            this.board.setPaddle1(this.HEIGHT - this.board.PADDLEHEIGHT);
+            this.board.setPaddle2(this.HEIGHT - this.board.PADDLEHEIGHT);
         }
         else{
-            this.board.movePaddle1(dy);
+            this.board.movePaddle2(dy);
         }
         //TODO: Send new location?
     }
