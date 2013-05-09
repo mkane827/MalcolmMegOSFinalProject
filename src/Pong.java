@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -19,20 +20,24 @@ public class Pong {
     }
 
 
-    public static void startGame(GameServer server){
-        ServerGame game = new ServerGame("Pong - Server", server);
+    public static void startGame(ServerSocket server){
+        ServerGame game = new ServerGame("Pong - Server");
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);
-        game.runGame();
+        ServerIO serverIO = new ServerIO(game.getBoard(), server);
+        serverIO.start();
+        //game.runGame();
+
     }
 
     public static void startGame(Socket socket){
-        UserGame game = new UserGame("Pong - User", socket);
+        UserGame game = new UserGame("Pong - User");
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);
-        game.runGame();
+        UserIO userIO = new UserIO(game.getBoard(), socket);
+        userIO.start();
     }
 
 }

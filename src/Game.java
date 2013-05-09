@@ -8,10 +8,11 @@ import java.awt.event.*;
  * Time: 11:21 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Game extends JFrame implements MouseListener {
+public abstract class Game extends JFrame implements KeyListener{
 
     protected static final int WIDTH = 500;
     protected static final int HEIGHT = 500;
+    protected static final int PADDLEMOV = 10;
     protected GameBoard board;
 
 
@@ -20,40 +21,52 @@ public abstract class Game extends JFrame implements MouseListener {
         super(s);
         setLayout(null);
         this.setSize(this.WIDTH+100,this.HEIGHT+100);
-        board = new GameBoard(this.WIDTH, this.HEIGHT);
-
+        board = new GameBoard(this, this.WIDTH, this.HEIGHT);
         add(board);
+        this.addKeyListener(this);
     }
 
-    abstract void runGame();
-
-    abstract void movePaddle(int dy);
-
-    abstract int getPaddleDirection(KeyEvent e);
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public GameBoard getBoard(){
+        return this.board;
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    abstract void movePaddle(int y);
+
+    abstract void setPaddle(int y);
+
+    protected int getPaddleDirection(KeyEvent e){
+        if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_KP_UP){
+            return -1;
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_KP_DOWN){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    protected int getNewPaddlePosition(int y){
+        if(y < 0){
+            return 0;
+        }else if(y + this.board.PADDLEHEIGHT > this.HEIGHT){
+            return this.HEIGHT - this.board.PADDLEHEIGHT;
+        }
+        else{
+            return y;
+        }
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void keyTyped(KeyEvent e) {
+        this.movePaddle(getPaddleDirection(e)*this.PADDLEMOV);
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void keyPressed(KeyEvent e) {
+        this.movePaddle(getPaddleDirection(e)*this.PADDLEMOV);
     }
 
+    public void keyReleased(KeyEvent e) {
+        //do nothing
+    }    
 }

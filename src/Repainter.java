@@ -9,7 +9,14 @@ import java.awt.*;
  */
 public class Repainter extends Thread {
 
-    public void run(Container container) {
-        container.paintAll(container.getGraphics());
+    Container container;
+
+    public Repainter(Container container){
+        super();
+        this.container = container;
+    }
+
+    public void run() {
+        this.container.paintAll(container.getGraphics());
     }
 }

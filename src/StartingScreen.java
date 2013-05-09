@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -27,7 +28,7 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
 
     private TextField connectToIPField;
 
-    private GameServer gameServer;
+    private ServerSocket gameServer;
     private Socket gameSocket;
 
     private GameBoard board;
@@ -54,7 +55,7 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
 
         if(action.equals(START_SERVER)) {
             try {
-                gameServer = new GameServer(1234);
+                gameServer = new ServerSocket(1234);
                 Label instruction = new Label("Use www.whatsmyip.org to get your ip address");
                 this.add(instruction);
                 this.paintAll(this.getGraphics());
@@ -105,15 +106,6 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
         Button newButton = new Button(text);
         container.add(newButton);
         newButton.addActionListener(this);
-    }
-
-
-    public GameServer getGameServer() {
-        return gameServer;
-    }
-
-    public void setGameServer(GameServer gameServer) {
-        this.gameServer = gameServer;
     }
 
     @Override

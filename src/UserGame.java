@@ -1,4 +1,5 @@
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,83 +15,18 @@ import java.net.Socket;
  */
 public class UserGame extends Game {
 
-    private static final int PADDLEMOV = 7;
-    private Socket socket;
-
-    public UserGame(String s, Socket socket){
+    public UserGame(String s){
         super(s);
-        this.socket = socket;
-        this.addMouseListener(this);
-        this.paintAll(this.getGraphics());
     }
 
     @Override
-    void runGame() {
-        //TODO: Set to receive ball and paddle1 locations from server
-        //TODO: Set up to send paddle2 locations to server
+    public void movePaddle(int y) {
+        this.board.setPaddle2(this.getNewPaddlePosition(y + this.board.getPaddle2y()));
 
-        PrintWriter out = null;
-        BufferedReader in = null;
-        try {
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            out.println(this.board.getPaddle1y());
-
-            Repainter repainter = new Repainter();
-            repainter.run(this);
-
-            String readLine;
-            while(!((readLine = in.readLine()).equals("exit"))) {
-                String[] boardLayout = readLine.split(",");
-                this.board.setBall(Integer.parseInt(boardLayout[0]), Integer.parseInt(boardLayout[1]));
-                this.board.setPaddle1(Integer.parseInt(boardLayout[2]));
-                try {
-                    this.board.setPaddle2(this.getMousePosition().y);
-                } catch (Exception e) {
-                    // Doesn't have focus
-                }
-                out.println(this.board.getPaddle2y());
-                repainter.run(this);
-            }
-            out.println("exit");
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
     }
 
     @Override
-    public void movePaddle(int dy) {
-        int paddley = this.board.getPaddle2y();
-        if(paddley + dy < 0){
-            this.board.setPaddle2(0);
-        }else if(paddley + dy + this.board.PADDLEHEIGHT > this.HEIGHT){
-            this.board.setPaddle2(this.HEIGHT - this.board.PADDLEHEIGHT);
-        }
-        else{
-            this.board.movePaddle2(dy);
-        }
-        //TODO: Send new location?
-    }
-
-    public int getPaddleDirection(KeyEvent e){
-        if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_KP_UP){
-            return -1;
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_KP_DOWN){
-            return 1;
-        }
-        else{
-            return 0;
-        }
-
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
+    void setPaddle(int y) {
+        this.board.setPaddle2(this.getNewPaddlePosition(y));
     }
 }

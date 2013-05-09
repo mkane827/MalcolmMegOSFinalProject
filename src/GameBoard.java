@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -8,7 +10,9 @@ import java.awt.*;
  * Time: 12:32:03 AM
  * To change this template use File | Settings | File Templates.
  */
-public class GameBoard extends JPanel {
+public class GameBoard extends JPanel implements MouseMotionListener {
+
+    private Game game;
     private int paddle1x;
     private int paddle1y;
     private int paddle2x;
@@ -20,7 +24,8 @@ public class GameBoard extends JPanel {
     protected static final int BALLDIAM = 10;
     protected static final int MARGIN = 1;
 
-    public GameBoard(int width, int height){
+    public GameBoard(Game game, int width, int height){
+        this.game = game;
         this.setSize(width,height);
         this.paddle1x = this.MARGIN;
         this.paddle1y = height/2 - this.PADDLEHEIGHT/2;
@@ -28,7 +33,8 @@ public class GameBoard extends JPanel {
         this.paddle2y = height/2 - this.PADDLEHEIGHT/2;
         this.ballx = width/2-this.BALLDIAM/2;
         this.bally = height/2 - this.BALLDIAM/2;
-        System.out.println(Integer.toString(width));
+
+        this.addMouseMotionListener(this);
     }
 
     public void paintComponent(Graphics g){
@@ -95,5 +101,13 @@ public class GameBoard extends JPanel {
 
     public int getBally(){
         return this.bally;
+    }
+
+    public void mouseDragged(MouseEvent e) {
+        this.game.setPaddle(e.getY());
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        this.game.setPaddle(e.getY());
     }
 }
