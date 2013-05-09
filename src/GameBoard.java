@@ -13,12 +13,22 @@ import java.awt.event.MouseMotionListener;
 public class GameBoard extends JPanel implements MouseMotionListener {
 
     private Game game;
+    private int width;
+    private int height;
     private int paddle1x;
     private int paddle1y;
     private int paddle2x;
     private int paddle2y;
     private int ballx;
     private int bally;
+    private boolean gameOver = false;
+    private boolean gameStarted = false;
+    private boolean disconnected = false;
+    private boolean win = false;
+    private static final String DISCONNECTED = "Opponent Disconnected";
+    private static final String WIN = "You Won!";
+    private static final String GAMEOVER = "Game Over";
+    private static final String NOTSTARTED = "Waiting for Opponent...";    
     protected static final int PADDLEWIDTH = 5;
     protected static final int PADDLEHEIGHT = 40;
     protected static final int BALLDIAM = 10;
@@ -26,7 +36,9 @@ public class GameBoard extends JPanel implements MouseMotionListener {
 
     public GameBoard(Game game, int width, int height){
         this.game = game;
-        this.setSize(width,height);
+        this.width = width;
+        this.height = height;
+        this.setSize(this.width,this.height);
         this.paddle1x = this.MARGIN;
         this.paddle1y = height/2 - this.PADDLEHEIGHT/2;
         this.paddle2x = width - this.PADDLEWIDTH - this.MARGIN;
@@ -42,8 +54,34 @@ public class GameBoard extends JPanel implements MouseMotionListener {
         this.setBackground(Color.BLACK);
         g.setColor(Color.WHITE);
         g.fillRect(paddle1x, paddle1y, PADDLEWIDTH, PADDLEHEIGHT);
-        g.fillOval(ballx, bally, BALLDIAM, BALLDIAM);
+        if(gameStarted){
+            g.fillOval(ballx, bally, BALLDIAM, BALLDIAM);
+        }
         g.fillRect(paddle2x, paddle2y, PADDLEWIDTH, PADDLEHEIGHT);
+
+        g.setColor(Color.YELLOW);
+        Font f = new Font("Arial", 0, 20);
+        g.setFont(f);
+        if(!gameStarted){
+            int sWidth = g.getFontMetrics(g.getFont()).stringWidth(this.NOTSTARTED);
+            g.drawString(this.NOTSTARTED, this.width/2 - sWidth/2, this.height/2);
+        }
+        else if(gameOver){
+            if(win){
+                int sWidth = g.getFontMetrics(g.getFont()).stringWidth(this.WIN);
+                g.drawString(this.WIN, this.width/2 - sWidth/2, this.height/2);
+
+            }
+            else{
+                int sWidth = g.getFontMetrics(g.getFont()).stringWidth(this.GAMEOVER);
+                g.drawString(this.GAMEOVER, this.width/2 - sWidth/2, this.height/2);
+
+            }
+        }
+        else if(disconnected){
+            int sWidth = g.getFontMetrics(g.getFont()).stringWidth(this.DISCONNECTED);
+            g.drawString(this.DISCONNECTED, this.width/2 - sWidth/2, this.height/2);
+        }
 
     }
 
@@ -101,6 +139,54 @@ public class GameBoard extends JPanel implements MouseMotionListener {
 
     public int getBally(){
         return this.bally;
+    }
+
+    public int getHeight(){
+        return this.height;
+    }
+
+    public int getWidth(){
+        return this.width;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+        this.repaint();
+        this.removeMouseMotionListener(this);
+        this.game.removeKeyListener(this.game);
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+        this.repaint();
+    }
+
+    public boolean isDisconnected() {
+        return disconnected;
+    }
+
+    public void setDisconnected(boolean disconnected) {
+        this.disconnected = disconnected;
+        this.repaint();
+        this.removeMouseMotionListener(this);      
+        this.game.removeKeyListener(this.game);
+        
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
     }
 
     public void mouseDragged(MouseEvent e) {

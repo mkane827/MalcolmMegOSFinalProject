@@ -36,16 +36,28 @@ public class ServerIO extends Thread{
             Socket clientSocket = gameServer.accept();
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            this.board.setGameStarted(true);            
             this.startBall();
             String readLine;
-            while(!((readLine = in.readLine()).equals("exit"))) {
+            while(!((readLine = in.readLine()).equals("exit")) && !this.board.isGameOver()) {
                 this.moveBall();
                 this.board.setPaddle2(Integer.parseInt(readLine));
                 out.println(this.board.getBallx() + "," + this.board.getBally() + "," + this.board.getPaddle1y());
                 Thread.sleep(waitTime);
             }
-        } catch (Exception e) {
+            if(this.board.isGameOver()){
+                if(this.board.isWin()){
+                    out.println("exit");
+                }
+                else{
+                    out.println("win");
+                }
+            }
+        } catch (IOException e) {
+            this.board.setDisconnected(true);            
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -60,20 +72,23 @@ public class ServerIO extends Thread{
         int bally = this.board.getBally();
         int balld = this.board.BALLDIAM;
         int paddleZone = this.board.PADDLEWIDTH + this.board.MARGIN;
-        if(ballx <= 0 || ballx + balld >= 500){
-            //TODO: accumulate point or end game
+        if(ballx <= 0){
+            this.board.setGameOver(true);
+        }else if(ballx + balld >= this.board.getWidth()){
+            this.board.setWin(true);
+            this.board.setGameOver(true);
         }else if(ballx <= paddleZone){
            int paddley = this.board.getPaddle1y();
             if(bally <= paddley + this.board.PADDLEHEIGHT && bally + balld >= paddley){
                 this.hitPaddle(paddley, 1);
             }
-        }else if(ballx + balld >= 500 - paddleZone){
+        }else if(ballx + balld >= this.board.getWidth() - paddleZone){
             int paddley = this.board.getPaddle2y();
             if(bally <= paddley + this.board.PADDLEHEIGHT && bally + balld >= paddley){
                 this.hitPaddle(paddley, -1);
             }
         }
-        if(bally <= 0 || bally + this.board.BALLDIAM >= 500){
+        if(bally <= 0 || bally + this.board.BALLDIAM >= this.board.getHeight()){
             this.balldy = -this.balldy;
         }
     }
