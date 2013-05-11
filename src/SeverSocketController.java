@@ -24,13 +24,22 @@ public class SeverSocketController extends Thread{
     private Random rgen = new Random();
     private int waitTime = 50;
 
-
-    public SeverSocketController(GameBoard board, ServerSocket gameServer){
+    /**
+     * Controls the server's game
+     * @param board that the game is run on
+     * @param gameServer that the user connected to
+     */
+     public SeverSocketController(GameBoard board, ServerSocket gameServer){
         this.board = board;
         this.gameServer = gameServer;
 
     }
 
+    /**
+     * Runs the game for the server.
+     * Sends the x and y coordinates or the ball and this user's paddle position.
+     * Receives the other player's paddle position
+     */
     public void run(){
         try {
             Socket clientSocket = gameServer.accept();
@@ -61,11 +70,17 @@ public class SeverSocketController extends Thread{
         }
     }
 
+    /**
+     * Puts the game ball in motion
+     */
     public void startBall(){
         this.balldx = (int)(-1 + Math.round(rgen.nextDouble()) * 2) * (rgen.nextInt(3) + 1);
         this.balldy = (int)(-1 + Math.round(rgen.nextDouble()) * 2) * (4 - Math.abs(this.balldy));
     }
 
+    /**
+     * Calculates the balls movement
+     */
     public void moveBall(){
         this.board.moveBall(balldx,balldy);
         int ballx = this.board.getBallx();
@@ -93,6 +108,13 @@ public class SeverSocketController extends Thread{
         }
     }
 
+    /**
+     * Calculates balls change in direction and speed after it hits a paddle.
+     * Based on where on the paddle the ball hits, the ball's direction will
+     * change at a different angle.
+     * @param paddley paddle that the ball hit
+     * @param sign direction the ball was moving
+     */
     public void hitPaddle(int paddley, int sign){
         int ballc = this.board.getBally() + this.board.BALLDIAM/2;
         int paddleh = this.board.PADDLEHEIGHT;
