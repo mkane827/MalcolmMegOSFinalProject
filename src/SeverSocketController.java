@@ -13,7 +13,7 @@ import java.util.Random;
  * Time: 8:15:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerIO extends Thread{
+public class SeverSocketController extends Thread{
 
     private static final int MINWAITTIME = 20;
     private static final int MAXWAITTIME = 80;
@@ -25,7 +25,7 @@ public class ServerIO extends Thread{
     private int waitTime = 50;
 
 
-    public ServerIO(GameBoard board, ServerSocket gameServer){
+    public SeverSocketController(GameBoard board, ServerSocket gameServer){
         this.board = board;
         this.gameServer = gameServer;
 

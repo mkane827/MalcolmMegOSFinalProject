@@ -11,11 +11,11 @@ import java.net.Socket;
  * Time: 8:51:54 PM
  * To change this template use File | Settings | File Templates.
  */
-public class UserIO extends Thread{
+public class UserSocketController extends Thread{
     private GameBoard board;
     private Socket socket;
 
-    public UserIO(GameBoard board, Socket socket){
+    public UserSocketController(GameBoard board, Socket socket){
         this.board = board;
         this.socket = socket;
     }
