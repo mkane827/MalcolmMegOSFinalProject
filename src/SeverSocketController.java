@@ -15,14 +15,14 @@ import java.util.Random;
  */
 public class SeverSocketController extends Thread{
 
-    private static final int MINWAITTIME = 20;
-    private static final int MAXWAITTIME = 80;
+    private static final int MINWAITTIME = 15;
+    private static final int MAXWAITTIME = 75;
     private GameBoard board;
     private ServerSocket gameServer;
     private int balldx;
     private int balldy;
     private Random rgen = new Random();
-    private int waitTime = 50;
+    private int waitTime = 45;
 
     /**
      * Controls the server's game
@@ -135,7 +135,7 @@ public class SeverSocketController extends Thread{
         }
         else if(ballc < paddley + Math.round(portions*4)){
             this.balldy = 0;
-            this.balldx = 4*sign;
+            this.balldx = 3*sign;
             delayInc = 10;
         }
         else if(ballc < paddley + Math.round(portions*5)){
@@ -156,8 +156,5 @@ public class SeverSocketController extends Thread{
         int newWaitTime = this.waitTime + delayInc;
         this.waitTime = Math.max(newWaitTime, this.MINWAITTIME);
         this.waitTime = Math.min(newWaitTime, this.MAXWAITTIME);
-        System.out.println(this.waitTime);
-        System.out.println(delayInc);
-
     }
 }
