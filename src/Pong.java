@@ -25,8 +25,8 @@ public class Pong {
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);
-        ServerIO serverIO = new ServerIO(game.getBoard(), server);
-        serverIO.start();
+        SeverSocketController severSocketController = new SeverSocketController(game.getBoard(), server);
+        severSocketController.start();
         //game.runGame();
 
     }
@@ -36,8 +36,8 @@ public class Pong {
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setVisible(true);
         game.setResizable(false);
-        UserIO userIO = new UserIO(game.getBoard(), socket);
-        userIO.start();
+        UserSocketController userSocketController = new UserSocketController(game.getBoard(), socket);
+        userSocketController.start();
     }
 
 }
