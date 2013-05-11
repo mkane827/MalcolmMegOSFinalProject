@@ -15,11 +15,21 @@ public class UserSocketController extends Thread{
     private GameBoard board;
     private Socket socket;
 
+    /**
+     * Controls the game for the user
+     * @param board that the game is being played on
+     * @param socket that the user used to connect to the server
+     */
     public UserSocketController(GameBoard board, Socket socket){
         this.board = board;
         this.socket = socket;
     }
 
+    /**
+     * Runs the game logic for the user.
+     * Sends user's paddle possition.
+     * Recieves ball x and y and server player's paddle position
+     */
     public void run(){
         PrintWriter out = null;
         BufferedReader in = null;
