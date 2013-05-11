@@ -15,11 +15,19 @@ public class ServerGame extends Game{
         super(s);
     }
 
+    /**
+     * Moves paddle 1
+     * @param y
+     */
     @Override
     public void movePaddle(int y) {
         this.board.setPaddle1(this.getNewPaddlePosition(y + this.board.getPaddle1y()));
     }
 
+    /**
+     * Sets location of paddle 1
+     * @param y
+     */
     @Override
     void setPaddle(int y) {
         this.board.setPaddle1(this.getNewPaddlePosition(y));

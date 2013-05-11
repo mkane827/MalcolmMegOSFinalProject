@@ -7,6 +7,8 @@ import java.awt.event.*;
  * Date: 4/26/13
  * Time: 11:21 AM
  * To change this template use File | Settings | File Templates.
+ *
+ * Abstract Game class to backbone ServerGame and UserGame.  Contains frame for holding GameBoard
  */
 public abstract class Game extends JFrame implements KeyListener{
 
@@ -30,10 +32,23 @@ public abstract class Game extends JFrame implements KeyListener{
         return this.board;
     }
 
+    /**
+     * Moves correct paddle based on user or server.
+     * @param y
+     */
     abstract void movePaddle(int y);
 
+    /**
+     * Sets correct paddle based on user or server
+     * @param y
+     */
     abstract void setPaddle(int y);
 
+    /**
+     * Gets direction of paddle based on key event (up or down arrow).
+     * @param e
+     * @return
+     */
     protected int getPaddleDirection(KeyEvent e){
         if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_KP_UP){
             return -1;
@@ -47,6 +62,11 @@ public abstract class Game extends JFrame implements KeyListener{
 
     }
 
+    /**
+     * Gets the new paddle position within ths limits of the board.
+     * @param y
+     * @return
+     */
     protected int getNewPaddlePosition(int y){
         if(y < 0){
             return 0;
