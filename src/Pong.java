@@ -11,6 +11,10 @@ import java.net.Socket;
  */
 public class Pong {
 
+    /**
+     * Creates the setup screen for the game.
+     * @param args
+     */
     public static void main(String[] args) {
         StartingScreen screen = new StartingScreen("Setup");
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,7 +23,10 @@ public class Pong {
         screen.setResizable(false);
     }
 
-
+    /**
+     * Starts the game if the user started the server.
+     * @param server that the user created to play the game on
+     */
     public static void startGame(ServerSocket server){
         ServerGame game = new ServerGame("Pong - Server");
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,6 +38,10 @@ public class Pong {
 
     }
 
+    /**
+     * Starts teh game if the user connected to the server
+     * @param socket that the user connected to
+     */
     public static void startGame(Socket socket){
         UserGame game = new UserGame("Pong - User");
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

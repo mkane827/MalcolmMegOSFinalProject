@@ -34,8 +34,10 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
     private GameBoard board;
     private JPanel buttonPanel;
 
-    private Timer myTimer;
-
+    /**
+     * Creates the setup screen
+     * @param s
+     */
     public StartingScreen(String s) {
         super(s);
         setLayout(new BorderLayout());
@@ -49,6 +51,15 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Reacts to button being clicked on.
+     * START_SERVER: Creates server on port 1234 for user to connect to
+     * EXIT: Exits the game
+     * CONNECT: Creates fields for user to input IP Address to connect to
+     * CONNECT_TO_SERVER: After user puts in IP Address to connect to, connects
+     *                      to the server.
+     * @param event
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String action = event.getActionCommand();
@@ -101,7 +112,11 @@ public class StartingScreen extends JFrame implements ActionListener, WindowList
         }
     }
 
-
+    /**
+     * Adds button to container
+     * @param text to put in the button
+     * @param container to add the button to
+     */
     private void addButton(String text, Container container) {
         Button newButton = new Button(text);
         container.add(newButton);
