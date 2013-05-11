@@ -19,12 +19,20 @@ public class UserGame extends Game {
         super(s);
     }
 
+    /**
+     * Moves paddle 2
+     * @param y
+     */
     @Override
     public void movePaddle(int y) {
         this.board.setPaddle2(this.getNewPaddlePosition(y + this.board.getPaddle2y()));
 
     }
 
+    /**
+     * Set location of paddle 2
+     * @param y
+     */
     @Override
     void setPaddle(int y) {
         this.board.setPaddle2(this.getNewPaddlePosition(y));
